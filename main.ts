@@ -19,15 +19,15 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         `, Amazon, 0, -50)
     music.pewPew.play()
 })
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    Pllito.destroy()
     otherSprite.destroy()
-    Amazon.destroy(effects.confetti, 500)
     info.changeScoreBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    Pllito.destroy(effects.confetti, 500)
-    scene.cameraShake(4, 500)
     info.changeLifeBy(-1)
+    otherSprite.destroy(effects.confetti, 1000)
+    scene.cameraShake(4, 500)
 })
 let Pllito: Sprite = null
 let projectile: Sprite = null
@@ -55,6 +55,7 @@ Amazon = sprites.create(img`
 Amazon.setPosition(82, 59)
 controller.moveSprite(Amazon, 100, 100)
 Amazon.setStayInScreen(true)
+info.setLife(5)
 game.onUpdateInterval(500, function () {
     Pllito = sprites.createProjectileFromSide(img`
         . . 2 2 b b b b b . . . . . . . 
